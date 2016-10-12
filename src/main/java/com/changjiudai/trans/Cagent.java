@@ -112,8 +112,6 @@ public class Cagent {
 				.setUri(new URI("http://www.changjiudai.com/index.php?user&q=action/login"))
 				.addParameter("keywords", username)
 				.addParameter("password", password)
-//				.addParameter("keywords", "bbrraann")
-//				.addParameter("password", "hcd1234")
 				.addParameter("valicode", code)
 				.build();
 		CloseableHttpResponse response = httpclient.execute(login);
@@ -163,10 +161,6 @@ public class Cagent {
 				.setUri(new URI("http://www.changjiudai.com/index.php?user&q=action/login"))
 				.addParameter("keywords", username)
 				.addParameter("password", password)
-//				.addParameter("keywords", "18317108150")
-//				.addParameter("password", "hw19891027")
-//				.addParameter("keywords", "bbrraann")
-//				.addParameter("password", "hcd1234")
 				.addParameter("valicode", code)
 				.build();
 		CloseableHttpResponse response = httpclient.execute(login);

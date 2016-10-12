@@ -212,10 +212,8 @@ public class LoginAction {
 			
 			HttpUriRequest login = RequestBuilder.post()
 					.setUri(new URI("http://www.changjiudai.com/index.php?user&q=action/login"))
-//					.addParameter("keywords", "18317108150")
-//					.addParameter("password", "hw19891027")
-					.addParameter("keywords", "bbrraann")
-					.addParameter("password", "hcd1234")
+					.addParameter("keywords", "")
+					.addParameter("password", "")
 					.addParameter("valicode", code)
 					.build();
 			CloseableHttpResponse response2 = httpclient.execute(login);
@@ -319,10 +317,8 @@ public class LoginAction {
 			
 			HttpUriRequest login = RequestBuilder.post()
 					.setUri(new URI("http://www.changjiudai.com/index.php?user&q=action/login"))
-					.addParameter("keywords", "18317108150")
-					.addParameter("password", "hw19891027")
-//					.addParameter("keywords", "bbrraann")
-//					.addParameter("password", "hcd1234")
+					.addParameter("keywords", "")
+					.addParameter("password", "")
 					.addParameter("valicode", code)
 					.build();
 			CloseableHttpResponse response2 = httpclient.execute(login);
