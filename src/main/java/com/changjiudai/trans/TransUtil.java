@@ -5,8 +5,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
+
 public class TransUtil {
 
+	private static Logger logger = Logger.getLogger(TransUtil.class);
+	
 
 	public static String getFileFirstLine(String fileName) throws IOException {
 		TransUtil u = new TransUtil();
@@ -17,6 +21,6 @@ public class TransUtil {
 	}
 
 	public static void main(String[] args) throws IOException {
-		System.out.println(TransUtil.getFileFirstLine("cookie.txt"));
+		logger.info(TransUtil.getFileFirstLine("cookie.txt"));
 	}
 }

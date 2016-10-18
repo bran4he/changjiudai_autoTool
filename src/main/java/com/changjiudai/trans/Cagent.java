@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,6 +26,7 @@ import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -43,6 +43,8 @@ public class Cagent {
 
 	private static final String REQ = "http://www.changjiudai.com/index.php?user&q=code/borrow/gathering&status=0&page=";
 	
+	private static Logger logger = Logger.getLogger(Cagent.class);
+	
 	private static int totalPage = 0;
 	
 	private CookieStore cookieStore = null;
@@ -55,7 +57,7 @@ public class Cagent {
 		this.cookieStore = new BasicCookieStore();
 		CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(this.cookieStore).build();
 		try {
-			System.out.println("==============get img code start");
+			logger.info("==============get img code start");
 			HttpGet httpget = new HttpGet("http://www.changjiudai.com//plugins/index.php?q=imgcode&height=25");
 			CloseableHttpResponse response = httpclient.execute(httpget);
 			try {
@@ -63,7 +65,7 @@ public class Cagent {
 
 				Header[] headers = response.getAllHeaders();
 				
-				CommonUtil.logHeaders(headers);
+//				CommonUtil.logHeaders(headers);
 				
 				InputStream ins = entity.getContent();
 				
@@ -80,16 +82,16 @@ public class Cagent {
 				fileOut.close();
 				bis.close();
 				
-				System.out.println("get img code status: " + response.getStatusLine());
+				logger.info("get img code status: " + response.getStatusLine());
 				EntityUtils.consume(entity);
 
-				System.out.println("Initial set of cookies:");
+				logger.info("Initial set of cookies:");
 				List<Cookie> cookies = this.cookieStore.getCookies();
 				if (cookies.isEmpty()) {
-					System.out.println("None");
+					logger.info("None");
 				} else {
 					for (int i = 0; i < cookies.size(); i++) {
-						System.out.println("- " + cookies.get(i).getName() + "\t" + cookies.get(i).getValue());
+						logger.info("- " + cookies.get(i).getName() + "\t" + cookies.get(i).getValue());
 					}
 				}
 			} finally {
@@ -104,7 +106,7 @@ public class Cagent {
 
 	
 	public boolean login(String username, String password, String code) throws IOException, URISyntaxException{
-		System.out.println("==============login start");
+		logger.info("==============login start");
 		
 		CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(this.cookieStore).build();
 		
@@ -128,19 +130,19 @@ public class Cagent {
 			}
 			
 			
-			CommonUtil.logHeaders(response.getAllHeaders());
+//			CommonUtil.logHeaders(response.getAllHeaders());
 			
-			System.out.println("login get status: " + response.getStatusLine());
+			logger.info("login get status: " + response.getStatusLine());
 			EntityUtils.consume(entity);
 
-			System.out.println("Post login cookies:");
+			logger.info("Post login cookies:");
 			List<Cookie> cookies = this.cookieStore.getCookies();
 			
 			if (cookies.isEmpty()) {
-				System.out.println("None");
+				logger.info("None");
 			} else {
 				for (int i = 0; i < cookies.size(); i++) {
-					System.out.println("- " + cookies.get(i).getName() + "\t" + cookies.get(i).getValue());	//cookies.get(i).toString()
+					logger.info("- " + cookies.get(i).getName() + "\t" + cookies.get(i).getValue());	//cookies.get(i).toString()
 				}
 			}
 			
@@ -153,7 +155,7 @@ public class Cagent {
 	}
 	
 	public boolean loginAndSign(String username, String password, String code) throws IOException, URISyntaxException{
-		System.out.println("==============login start");
+		logger.info("==============login start");
 		
 		CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(this.cookieStore).build();
 		
@@ -177,33 +179,33 @@ public class Cagent {
 			}
 			
 			
-			CommonUtil.logHeaders(response.getAllHeaders());
+//			CommonUtil.logHeaders(response.getAllHeaders());
 			
-			System.out.println("login get status: " + response.getStatusLine());
+			logger.info("login get status: " + response.getStatusLine());
 			EntityUtils.consume(entity);
 			
-			System.out.println("Post login cookies:");
+			logger.info("Post login cookies:");
 			List<Cookie> cookies = this.cookieStore.getCookies();
 			
 			if (cookies.isEmpty()) {
-				System.out.println("None");
+				logger.info("None");
 			} else {
 				for (int i = 0; i < cookies.size(); i++) {
-					System.out.println("- " + cookies.get(i).getName() + "\t" + cookies.get(i).getValue());	//cookies.get(i).toString()
+					logger.info("- " + cookies.get(i).getName() + "\t" + cookies.get(i).getValue());	//cookies.get(i).toString()
 				}
 			}
 			
 			boolean result = CommonUtil.checkLogin(sb.toString());
 			
 			if(result){
-				System.out.println("==============sign daily");
+				logger.info("==============sign daily");
 				HttpPost httpPost = new HttpPost("http://www.changjiudai.com/index.php?user&q=code/credit/registertime");
 				CloseableHttpResponse response1 = httpclient.execute(httpPost);
 				try {
-					System.out.println("sign get status: " + response1.getStatusLine());
+					logger.info("sign get status: " + response1.getStatusLine());
 					HttpEntity entity1 = response1.getEntity();
 					
-					CommonUtil.logHeaders(response1.getAllHeaders());
+//					CommonUtil.logHeaders(response1.getAllHeaders());
 					
 					BufferedInputStream bisSign = new BufferedInputStream(entity1.getContent());
 					StringBuffer sbSign = new StringBuffer();
@@ -213,7 +215,7 @@ public class Cagent {
 						sbSign.append(new String(buffSign, 0, lenSign));
 					}
 					
-					System.out.println("sign response: \t" + sbSign.toString());
+					logger.info("sign response: \t" + sbSign.toString());
 					
 					EntityUtils.consume(entity1);
 				} finally {
@@ -241,7 +243,7 @@ public class Cagent {
 		List<Cookie> cookielst = this.cookieStore.getCookies();
 		
 		for (int i = 0; i < cookielst.size(); i++) {
-			System.out.println("- " + cookielst.get(i).getName() + "\t" + cookielst.get(i).getValue());	//cookies.get(i).toString()
+			logger.info("- " + cookielst.get(i).getName() + "\t" + cookielst.get(i).getValue());	//cookies.get(i).toString()
 			cookies.put(cookielst.get(i).getName(), cookielst.get(i).getValue());
 		}
 		
@@ -256,7 +258,7 @@ public class Cagent {
 				Elements pages = doc.select("div .userPage");
 				String pageStr = pages.get(0).text();	//共12页/当前为第1页 首页 上一页 下一页 尾页
 				totalPage = Integer.parseInt(pageStr.substring(1, pageStr.indexOf("页")));
-				System.out.println("get total pages :" + totalPage);
+				logger.info("get total pages :" + totalPage);
 			}
 			
 			Elements tables = doc.select(".tableInfo");
@@ -266,7 +268,7 @@ public class Cagent {
 				String total = table.select("td").get(4).text();	//total 共收入
 				String capital = table.select("td").get(5).text();	//capital 本金
 				String interest = table.select("td").get(6).text();	//interest 利息
-				System.out.println(date +"\t"+ total +"\t"+ capital + "\t" +interest);
+				logger.info(date +"\t"+ total +"\t"+ capital + "\t" +interest);
 				datelst.add(date);
 				totallst.add(total);
 				capitallst.add(capital);

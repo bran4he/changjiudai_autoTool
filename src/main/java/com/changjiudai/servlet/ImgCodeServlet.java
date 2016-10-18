@@ -10,20 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.http.client.CookieStore;
+import org.apache.log4j.Logger;
 
 import com.changjiudai.trans.Cagent;
-import com.changjiudai.trans.LoginAction;
 
 @WebServlet(name = "getImgCode", urlPatterns={"/getCode", "/login", "/exportXlsx"})
 public class ImgCodeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	private static Logger logger = Logger.getLogger(ImgCodeServlet.class);
 	
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("request.getServletPath(): " + request.getServletPath());
+		logger.info("request.getServletPath(): " + request.getServletPath());
 		
 		if("/getCode".equals(request.getServletPath())){
 			try {
@@ -34,7 +34,7 @@ public class ImgCodeServlet extends HttpServlet {
 				response.getWriter().write(agent.getImgCodePath());
 				
 				HttpSession session = request.getSession();
-				System.out.println("session get img: " + session);
+				logger.info("session get img: " + session);
 				
 				//override
 				session.setAttribute("agent", agent);
@@ -44,7 +44,7 @@ public class ImgCodeServlet extends HttpServlet {
 			}
 		}else if("/login".equals(request.getServletPath())){
 			HttpSession session = request.getSession();
-			System.out.println("session login: " + session);
+			logger.info("session login: " + session);
 			Cagent agent = (Cagent) session.getAttribute("agent");
 			
 			if(agent != null){
@@ -53,7 +53,7 @@ public class ImgCodeServlet extends HttpServlet {
 				String username = request.getParameter("username");
 				String password = request.getParameter("password");
 				
-				System.out.println("login get imgCode: " + imgCode);
+				logger.info("login get imgCode: " + imgCode);
 				
 				try {
 					boolean result = agent.loginAndSign(username, password, imgCode);
@@ -69,13 +69,13 @@ public class ImgCodeServlet extends HttpServlet {
 				
 				
 			}else{
-				System.out.println("agent in session is null!!");
+				logger.info("agent in session is null!!");
 			}
 			
 			
 		}else if("/exportXlsx".equals(request.getServletPath())){
 			HttpSession session = request.getSession();
-			System.out.println("session login: " + session);
+			logger.info("session login: " + session);
 			Cagent agent = (Cagent) session.getAttribute("agent");
 			
 			if(agent != null){
@@ -94,7 +94,7 @@ public class ImgCodeServlet extends HttpServlet {
 				}
 				
 			}else{
-				System.out.println("agent in session is null!!");
+				logger.info("agent in session is null!!");
 			}
 			
 			
