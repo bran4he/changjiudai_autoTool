@@ -45,7 +45,7 @@ public class Cagent {
 	
 	private static Logger logger = Logger.getLogger(Cagent.class);
 	
-	private static int totalPage = 0;
+	private int totalPage = 0;
 	
 	private CookieStore cookieStore = null;
 	

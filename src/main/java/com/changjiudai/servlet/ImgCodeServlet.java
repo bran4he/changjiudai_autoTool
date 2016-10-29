@@ -37,6 +37,7 @@ public class ImgCodeServlet extends HttpServlet {
 				logger.info("session get img: " + session);
 				
 				//override
+				session.removeAttribute("agent");
 				session.setAttribute("agent", agent);
 				
 			} catch (Exception e) {

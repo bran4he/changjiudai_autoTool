@@ -19,7 +19,7 @@ public class CommonUtil {
 	}
 	
 	public static boolean checkLogin(String responseStr) {
-		logger.info("login response: \n" + responseStr);
+//		logger.info("login response: \n" + responseStr);
 		
 		//验证码错误
 		//用户名密码错误
