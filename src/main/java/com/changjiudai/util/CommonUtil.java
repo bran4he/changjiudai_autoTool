@@ -10,6 +10,9 @@ public class CommonUtil {
 
 	private static Logger logger = Logger.getLogger(CommonUtil.class);
 	
+	
+	
+	
 	public static void logHeaders(Header[] headers) {
 		logger.info("----response headers----");
 		for (Header header : headers) {
