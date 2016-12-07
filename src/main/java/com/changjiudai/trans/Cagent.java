@@ -257,6 +257,8 @@ public class Cagent {
 			if(totalPage == 0){
 				Elements pages = doc.select("div .userPage");
 				String pageStr = pages.get(0).text();	//共12页/当前为第1页 首页 上一页 下一页 尾页
+				logger.info(pageStr);
+				logger.info(pageStr.substring(1, pageStr.indexOf("页")));
 				totalPage = Integer.parseInt(pageStr.substring(1, pageStr.indexOf("页")));
 				logger.info("get total pages :" + totalPage);
 			}
