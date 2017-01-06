@@ -249,7 +249,7 @@ public class Cagent {
 		
 		Document doc = null;
 		
-		for(int i=0; i<=totalPage; i++){
+		for(int i=1; i<=totalPage; i++){
 			String url = REQ + i;
 			
 			doc = Jsoup.connect(url).cookies(cookies).timeout(30000).get();
